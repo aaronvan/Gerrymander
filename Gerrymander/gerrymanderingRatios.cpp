@@ -30,9 +30,9 @@ void printMap(map<string, double> in) {
 map<string, double> gerrymanderingRatios(string file) {
     map<string, int> countMap; // party : voters
     map<string, double> gerryMap; // party : ratio
-	vector<string> districtWinner; // holds votes for instances of each char
+	vector<string> districtWinner; // holds instances of each char
 
-    ifstream file_in(file);
+    ifstream file_in(file, ios::in);
 	int totalVotes = 0;
 	int totalDistricts = 0;
     if (file_in) {
@@ -45,15 +45,17 @@ map<string, double> gerrymanderingRatios(string file) {
                 } catch (const out_of_range& oor) { // if not present,
                     countMap[ch] = 1;               // adds ch and starts counting
                 }
+				districtWinner.push_back(ch);
                 ++totalVotes;
             }
-			//districtWinner.push_back(ch);
+			districtWinner.push_back("\n");
             ++totalDistricts;
         }
         file_in.close();
     }
 	// get the district winners here
-    map<string, int>::iterator iter;
+
+	map<string, int>::iterator iter;
     for (iter = countMap.begin(); iter != countMap.end(); ++iter) {
        double percentDistrictsPartyWonAMajority = totalDistricts / (*iter).second; //wrong
        double percentTotalVotesWonByParty = totalVotes / (*iter).second;
