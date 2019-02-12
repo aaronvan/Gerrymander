@@ -1,0 +1,5 @@
+District1 D R D D D
+District2 R D R R
+DISTRICT3 R R R R R
+District4 D D R R D R D
+district5 D D R D R
