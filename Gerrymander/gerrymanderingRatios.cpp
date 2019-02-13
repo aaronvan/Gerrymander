@@ -29,10 +29,10 @@ void printMap(map<string, double> in) {
 /************************************************************************************************/
 
 map<string, double> gerrymanderingRatios(string file) {
-    map<string, int> countMap;		// party : voters
-    map<string, double> gerryMap;	// party : ratio
+    map<string, int> countMap;			// party : voters
+    map<string, double> gerryMap;		// party : ratio
 	map<string, int> districtWinner;	// district : winning party 
-	vector<string> districtVotes;	// holds instances of each vote, districts seperated by "/n"
+	vector<string> districtVotes;		// holds a disctict's votes
 
     ifstream file_in(file, ios::in);
 	int totalVotes = 0;
@@ -50,13 +50,12 @@ map<string, double> gerrymanderingRatios(string file) {
 				districtVotes.push_back(ch);
                 ++totalVotes;
             }
-			// insert max districtVotes (winning party) into districtWinner
-			// clear districtVotes
+			// iterate across districtVotes to find party with most votes in a district.
+			// insert the winning party into districtWinner map {district : winner}
 			for (string party : districtVotes) {
-				string district = districtName;
 				int c = count(districtVotes.begin(), districtVotes.end(), party);
-				// assign the int to the party
-				districtWinner.insert_or_assign(district, c);
+				//TODO: assign the int to the party
+				districtWinner.insert_or_assign(districtName, c);
 			}
 			districtVotes.clear();
             ++totalDistricts;
