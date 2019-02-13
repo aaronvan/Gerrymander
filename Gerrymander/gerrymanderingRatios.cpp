@@ -44,8 +44,8 @@ map<string, double> gerrymanderingRatios(string file) {
             while (ss >> ch) {
                 try {
                     ++countMap.at(ch);              // looks for key ch
-                } catch (const out_of_range& oor) { // if not present,
-                    countMap[ch] = 1;               // adds ch and starts counting
+                } catch (const out_of_range& oor) { // if key not present,
+                    countMap[ch] = 1;               // adds key and starts counting
                 }
 				districtVotes.push_back(ch);
                 ++totalVotes;
