@@ -31,7 +31,7 @@ void printMap(map<string, double> in) {
 map<string, double> gerrymanderingRatios(string file) {
     map<string, int> countMap;			// party : voters
     map<string, double> gerryMap;		// party : ratio
-	map<string, int> districtWinner;	// district : winning party 
+	map<string, string> districtWinner;	// district : winning party 
 	vector<string> districtVotes;		// holds a disctict's votes
 
     ifstream file_in(file, ios::in);
@@ -50,12 +50,26 @@ map<string, double> gerrymanderingRatios(string file) {
 				districtVotes.push_back(ch);
                 ++totalVotes;
             }
-			// iterate across districtVotes to find party with most votes in a district.
-			// insert the winning party into districtWinner map {district : winner}
-			for (string party : districtVotes) {
-				int c = count(districtVotes.begin(), districtVotes.end(), party);
-				//TODO: assign the int to the party
-				districtWinner.insert_or_assign(districtName, c);
+			//sort districtVotes
+			sort(districtVotes.begin(), districtVotes.end());
+			// iterate through it and keep a counter that you increment when the current number is the same
+			// as the previous number and reset to 0 otherwise.
+			// Also keep track of what was the highest value of the counter thus far and 
+			// what the current number was when that value was reached.
+			for (size_t i = 0; i < districtVotes.size() - 1; ++i) {
+				int counter = 0;
+				int maxCounter = 0;
+				string highCount;
+				string winner = districtVotes[i];
+				if (districtVotes[i + 1] == districtVotes[i]) {
+					winner = districtVotes[i];
+					highCount = districtVotes[i];
+					++counter;
+				}
+				else {
+					counter = 0;
+				}
+				districtWinner.insert_or_assign(districtName, winner);
 			}
 			districtVotes.clear();
             ++totalDistricts;
