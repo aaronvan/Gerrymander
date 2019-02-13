@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -28,16 +29,17 @@ void printMap(map<string, double> in) {
 /************************************************************************************************/
 
 map<string, double> gerrymanderingRatios(string file) {
-    map<string, int> countMap; // party : voters
-    map<string, double> gerryMap; // party : ratio
-	vector<string> districtWinner; // holds instances of each char
+    map<string, int> countMap;		// party : voters
+    map<string, double> gerryMap;	// party : ratio
+	map<string, int> districtWinner;	// district : winning party 
+	vector<string> districtVotes;	// holds instances of each vote, districts seperated by "/n"
 
     ifstream file_in(file, ios::in);
 	int totalVotes = 0;
 	int totalDistricts = 0;
     if (file_in) {
-		string line, ignoreMe, ch;
-        while (file_in >> ignoreMe, getline(file_in, line)) {
+		string line, districtName, ch;
+        while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
             while (ss >> ch) {
                 try {
@@ -45,10 +47,18 @@ map<string, double> gerrymanderingRatios(string file) {
                 } catch (const out_of_range& oor) { // if not present,
                     countMap[ch] = 1;               // adds ch and starts counting
                 }
-				districtWinner.push_back(ch);
+				districtVotes.push_back(ch);
                 ++totalVotes;
             }
-			districtWinner.push_back("\n");
+			// insert max districtVotes (winning party) into districtWinner
+			// clear districtVotes
+			for (string party : districtVotes) {
+				string district = districtName;
+				int c = count(districtVotes.begin(), districtVotes.end(), party);
+				// assign the int to the party
+				districtWinner.insert_or_assign(district, c);
+			}
+			districtVotes.clear();
             ++totalDistricts;
         }
         file_in.close();
