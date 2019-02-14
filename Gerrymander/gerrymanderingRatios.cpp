@@ -72,21 +72,6 @@ map<string, double> gerrymanderingRatios(string file) {
     }
 	file_in.close();
 	
-/* 
-For each key in countMap, get total of that value in districtWinner
-countMap {D : 12, R : 14 } 
-districtWinner { DISTRICT3 : R, District1 : D, District2 : R, District4 : D, district5 : D }
- totalDistrict = 5
-	for each (countMap[key] count the times it appears in districtWinner);
-		calculate:
-			-- percentDistrictsWon
-			-- percent of votes;
-			-- ratio
-		insert in gerryMap
-	}
-}
-return gerryMap */
-
 	map<string, int>::iterator voteCounter; // countMap
     for (voteCounter = countMap.begin(); voteCounter != countMap.end(); ++voteCounter) {
 		map<string, string>::iterator partyCounter; // districtWinner
@@ -102,4 +87,3 @@ return gerryMap */
     }
     return gerryMap;
 }
-
