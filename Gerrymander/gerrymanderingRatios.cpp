@@ -37,20 +37,19 @@ map<string, double> gerrymanderingRatios(string file) {
 	int totalVotes = 0;
 	int totalDistricts = 0;
     if (file_in) {
-		string line, districtName, ch;
+		string line, districtName, partyVote, topString;
         while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
-            while (ss >> ch) {
+            while (ss >> partyVote) {
                 try {
-                    ++countMap.at(ch);              // looks for key ch
+                    ++countMap.at(partyVote);              // looks for key ch
                 } catch (const out_of_range& oor) { // if key not present,
-                    countMap[ch] = 1;               // adds key and starts counting
+                    countMap[partyVote] = 1;               // adds key and starts counting
                 }
-				districtVotes.push_back(ch);
+				districtVotes.push_back(partyVote);
                 ++totalVotes;
             }
 			// iterate over the district votes and find which party got the majority
-			string topString;
 			for (size_t i = 0; i < districtVotes.size() - 1; ++i) {
 				string winner = districtVotes[i];
 				int counter = 0;
