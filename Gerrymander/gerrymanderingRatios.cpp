@@ -35,7 +35,7 @@ map<string, double> gerrymanderingRatios(string file) {
 
     ifstream file_in(file, ios::in);
 	int totalVotes = 0;
-	int totalDistricts = 0;
+	int districtCounter = 0;
     if (file_in) {
 		string line, districtName, partyVote, majorityVote;
         while (file_in >> districtName, getline(file_in, line)) {
@@ -67,24 +67,37 @@ map<string, double> gerrymanderingRatios(string file) {
 				districtWinner.insert_or_assign(districtName, majorityVote);
 			}
 			districtVotes.clear();
-			++totalDistricts;
+			++districtCounter;
 		}
     }
 	file_in.close();
 	
-	// districtWinner { DISTRICT3 : R, District1 : D, District2 : R, District4 : D, district5 : D }
-	// countMap {D : 12, R : 14 }
-	// totalDistrict = 5
+/* 
+countMap {D : 12, R : 14 }
+districtWinner { DISTRICT3 : R, District1 : D, District2 : R, District4 : D, district5 : D }
+ totalDistrict = 5
+
+	for each (countMap[key] count the times it appears in districtWinner);
+		calculate:
+			percentDistrictsWon
+			percent of votes;
+			ratio
+		put it in the gerryMap
+	}
+}
+return gerryMap */
+
 	map<string, string>::iterator partyCounter;
 	for (partyCounter = districtWinner.begin(); partyCounter != districtWinner.end(); ++partyCounter) {
 
 	}
 	map<string, int>::iterator voteCounter;
     for (voteCounter = countMap.begin(); voteCounter != countMap.end(); ++voteCounter) {
-       double percentDistrictsPartyWonAMajority = totalDistricts / (*voteCounter).second; //wrong
-       double percentTotalVotesWonByParty = totalVotes / (*voteCounter).second;
-       double ratio = percentDistrictsPartyWonAMajority / percentTotalVotesWonByParty;
-       gerryMap.insert(pair<string, double> {(*voteCounter).first, ratio});
+		double percentOfVotes = totalVotes / (*voteCounter).second; // total votes / # of party votes
+		double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
+		//double percentDistrictsWon = districtCounter / (*voteCounter).second;
+		double ratio = percentDistrictsWon / percentOfVotes;
+		gerryMap.insert(pair<string, double> {(*voteCounter).first, ratio});
     }
     return gerryMap;
 }
