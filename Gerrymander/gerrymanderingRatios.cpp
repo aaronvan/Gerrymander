@@ -65,8 +65,8 @@ map<string, double> gerrymanderingRatios(string file) {
 					topString = districtVotes[maxCounter];
 					counter = 0;
 				}
+				districtWinner.insert_or_assign(districtName, topString);
 			}
-			districtWinner.insert_or_assign(districtName, topString);
 			districtVotes.clear();
 		}
         ++totalDistricts;
