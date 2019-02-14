@@ -37,14 +37,14 @@ map<string, double> gerrymanderingRatios(string file) {
 	int totalVotes = 0;
 	int totalDistricts = 0;
     if (file_in) {
-		string line, districtName, partyVote, topString;
+		string line, districtName, partyVote, majorityVote;
         while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
             while (ss >> partyVote) {
                 try {
-                    ++countMap.at(partyVote);              // looks for key ch
-                } catch (const out_of_range& oor) { // if key not present,
-                    countMap[partyVote] = 1;               // adds key and starts counting
+                    ++countMap.at(partyVote);           // looks for key ch
+                } catch (const out_of_range& oor) {		// if key not present,
+                    countMap[partyVote] = 1;            // adds key and starts counting
                 }
 				districtVotes.push_back(partyVote);
                 ++totalVotes;
@@ -61,23 +61,30 @@ map<string, double> gerrymanderingRatios(string file) {
 				else {
 					if (counter > maxCounter)
 						counter = maxCounter;
-					topString = districtVotes[maxCounter];
+					majorityVote = districtVotes[maxCounter];
 					counter = 0;
 				}
-				districtWinner.insert_or_assign(districtName, topString);
+				districtWinner.insert_or_assign(districtName, majorityVote);
 			}
 			districtVotes.clear();
+			++totalDistricts;
 		}
-        ++totalDistricts;
     }
 	file_in.close();
+	
+	// districtWinner { DISTRICT3 : R, District1 : D, District2 : R, District4 : D, district5 : D }
+	// countMap {D : 12, R : 14 }
+	// totalDistrict = 5
+	map<string, string>::iterator partyCounter;
+	for (partyCounter = districtWinner.begin(); partyCounter != districtWinner.end(); ++partyCounter) {
 
-	map<string, int>::iterator iter;
-    for (iter = countMap.begin(); iter != countMap.end(); ++iter) {
-       double percentDistrictsPartyWonAMajority = totalDistricts / (*iter).second; //wrong
-       double percentTotalVotesWonByParty = totalVotes / (*iter).second;
+	}
+	map<string, int>::iterator voteCounter;
+    for (voteCounter = countMap.begin(); voteCounter != countMap.end(); ++voteCounter) {
+       double percentDistrictsPartyWonAMajority = totalDistricts / (*voteCounter).second; //wrong
+       double percentTotalVotesWonByParty = totalVotes / (*voteCounter).second;
        double ratio = percentDistrictsPartyWonAMajority / percentTotalVotesWonByParty;
-       gerryMap.insert(pair<string, double> {(*iter).first, ratio});
+       gerryMap.insert(pair<string, double> {(*voteCounter).first, ratio});
     }
     return gerryMap;
 }
