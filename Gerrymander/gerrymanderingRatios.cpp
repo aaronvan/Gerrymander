@@ -76,13 +76,12 @@ map<string, double> gerrymanderingRatios(string file) {
 countMap {D : 12, R : 14 }
 districtWinner { DISTRICT3 : R, District1 : D, District2 : R, District4 : D, district5 : D }
  totalDistrict = 5
-
 	for each (countMap[key] count the times it appears in districtWinner);
 		calculate:
-			percentDistrictsWon
-			percent of votes;
-			ratio
-		put it in the gerryMap
+			-- percentDistrictsWon
+			-- percent of votes;
+			-- ratio
+		insert in gerryMap
 	}
 }
 return gerryMap */
