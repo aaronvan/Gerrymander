@@ -88,13 +88,15 @@ districtWinner { DISTRICT3 : R, District1 : D, District2 : R, District4 : D, dis
 return gerryMap */
 
 	
-	map<string, int>::iterator voteCounter;
+	map<string, int>::iterator voteCounter; // countMap
     for (voteCounter = countMap.begin(); voteCounter != countMap.end(); ++voteCounter) {
-		map<string, string>::iterator partyCounter;
+		map<string, string>::iterator partyCounter; // districtWinner
 		for (partyCounter = districtWinner.begin(); partyCounter != districtWinner.end(); ++partyCounter) {
+			int districtsWon = 0;
+			if ( (*voteCounter).first == (*partyCounter).second )
+				++districtsWon;
 			double percentOfVotes = totalVotes / (*voteCounter).second; // total votes / # of party votes
 			double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
-			//double percentDistrictsWon = districtCounter / (*voteCounter).second;
 			double ratio = percentDistrictsWon / percentOfVotes;
 			gerryMap.insert(pair<string, double> {(*voteCounter).first, ratio});
 		}
