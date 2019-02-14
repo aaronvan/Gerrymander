@@ -28,7 +28,7 @@ void printMap(map<string, double> in) {
 /************************************************************************************************/
 
 map<string, double> gerrymanderingRatios(string file) {
-    map<string, int> countMap;			// party : votes
+    map<string, int> countMap;			// party : votes /* map<string, vector<double> > grades;  */ slide 31  
     map<string, double> gerryMap;		// party : ratio
 	map<string, string> districtWinner;	// district : winning party 
 	vector<string> districtVotes;		// temp storage for each district's votes
@@ -42,14 +42,14 @@ map<string, double> gerrymanderingRatios(string file) {
             stringstream ss(line);
             while (ss >> partyVote) {
                 try {
-                    ++countMap.at(partyVote);           // looks for key ch
+                    ++countMap.at(partyVote);           // if the key is present increment the count
                 } catch (const out_of_range& oor) {		// if key not present,
-                    countMap[partyVote] = 1;            // adds key and starts counting
+                    countMap[partyVote] = 1;            // adds and begin counting
                 }
 				districtVotes.push_back(partyVote);
                 ++totalVotes;
             }
-			// iterate over the district votes and find which party got the majority
+			// iterate over districtVotes, insert majority party into districtWinner
 			for (size_t i = 0; i < districtVotes.size() - 1; ++i) {
 				string winner = districtVotes[i];
 				int counter = 0;
