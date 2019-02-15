@@ -34,8 +34,8 @@ map<string, double> gerrymanderingRatios(string file) {
 	vector<string> districtVotes;		// temp storage for each district's votes
 
     ifstream file_in(file, ios::in);
-	int totalVotes = 0;
-	int districtCounter = 0;
+	double totalVotes = 0.0;
+	double districtCounter = 0.0;
     if (file_in) {
 		string line, districtName, partyVote, majorityVote;
         while (file_in >> districtName, getline(file_in, line)) {
@@ -80,8 +80,8 @@ map<string, double> gerrymanderingRatios(string file) {
 			if ((*voteCounter).first == (*partyCounter).second)
 				++districtsWon;
 		}
-		double percentOfVotes = (*voteCounter).second / (double) totalVotes; // total votes / # of party votes
-		double percentDistrictsWon = districtsWon / (double) districtCounter; // districts won by party / # of districts
+		double percentOfVotes = (*voteCounter).second / totalVotes; // total votes / # of party votes
+		double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
 		double ratio = percentDistrictsWon / percentOfVotes;
 		gerryMap.insert(pair<string, double> {(*voteCounter).first, ratio});
     }
