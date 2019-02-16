@@ -26,16 +26,14 @@ void printMap(map<string, double> in) {
 }
 
 map<string, double> gerrymanderingRatios(const string &file) {
-	//countMap<string, int> {D:14, R:13}
-    map<string, int> countMap;			// party : votes   
-
-	//districtWinner <string, string>{1:D, 2:R, 2:R, 4:D, 5:D}
-	map<string, string> districtWinner;	// district : winning party 
-
+	//countMap<string, int> party : votes {D:14, R:13}
+    map<string, int> countMap;   
+	//districtWinner<string, string> district : winning party {1:D, 2:R, 2:R, 4:D, 5:D}
+	map<string, string> districtWinner; 
 	vector<string> districtVotes;		// temp storage for each district's votes
-	
-	map<string, double> gerryMap;		// party : ratio (return)
-    ifstream file_in(file, ios::in);
+	map<string, double> gerryMap;		// party : ratio (returned)
+    
+	ifstream file_in(file, ios::in);
 	double totalVotes = 0.0;
 	double districtCounter = 0.0;
     if (file_in) {
