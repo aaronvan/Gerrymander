@@ -35,7 +35,6 @@ map<string, double> gerrymanderingRatios(string file) {
 	vector<string> districtVotes;		// temp storage for each district's votes
 	
 	map<string, double> gerryMap;		// party : ratio (return)
-
     ifstream file_in(file, ios::in);
 	double totalVotes = 0.0;
 	double districtCounter = 0.0;
@@ -45,7 +44,7 @@ map<string, double> gerrymanderingRatios(string file) {
             stringstream ss(line);
             while (ss >> partyVote) {
                 try {
-                    ++countMap.at(partyVote);           // if the key is present increment the count
+					++countMap[partyVote];
                 } catch (const out_of_range& oor) {		// if key not present,
                     countMap[partyVote] = 1;            // adds and begin counting
                 }
