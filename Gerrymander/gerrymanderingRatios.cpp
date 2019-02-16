@@ -7,7 +7,7 @@
 
 using namespace std;
 
-map<string, double> gerrymanderingRatios(string);
+map<string, double> gerrymanderingRatios(const string &file);
 void printMap(map<string, double>);
 
 int main() {
@@ -25,7 +25,7 @@ void printMap(map<string, double> in) {
     }
 }
 
-map<string, double> gerrymanderingRatios(string file) {
+map<string, double> gerrymanderingRatios(const string &file) {
 	//countMap<string, int> {D:14, R:13}
     map<string, int> countMap;			// party : votes   
 
