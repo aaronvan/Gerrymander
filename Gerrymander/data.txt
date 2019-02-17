@@ -1,5 +1,8 @@
-District1 D R D D D
-District2 R D R R
-DISTRICT3 R R R R R
-District4 D D R R D R D
-district5 D D R D R
+District1 B A B B A C B B A A
+District_2 A C A A A C C A
+dist3 B C A B A C A
+Distr__4 C C C
+district5 B
+district6 C B A C C A
+distric7 B B B C C
+district8 C C C C A
