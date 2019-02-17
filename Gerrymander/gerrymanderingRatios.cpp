@@ -60,8 +60,7 @@ map<string, double> gerrymanderingRatios(const string &file) {
 					winner = districtVotes[i];
 					++counter;
 				}
-				else {
-					if (counter > maxCounter)
+				if (counter > maxCounter) {
 						counter = maxCounter;
 				}
 				majorityVote = districtVotes[maxCounter];
