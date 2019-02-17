@@ -37,7 +37,9 @@ map<string, double> gerrymanderingRatios(const string &file) {
 	double districtCounter = 0.0;
 	double ratio = 0.0;
     if (file_in) {
-		string line, districtName, partyVote, majorityVote;
+		string line;
+		string districtName;
+		string partyVote;
         while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
             while (ss >> partyVote) {
