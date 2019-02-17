@@ -49,9 +49,6 @@ map<string, double> gerrymanderingRatios(const string &file) {
 				districtVotes.push_back(partyVote);
                 ++totalVotes;
             }
-			// iterate over districtVotes, insert majority party into districtWinner
-			// expected: {"A":0.75, "B":1.40625, "C":0.9375}
-			//sort(districtVotes.begin(), districtVotes.end());
 			sort(districtVotes.begin(), districtVotes.end());
 			int max = 0;
 			string winner = districtVotes[max];
