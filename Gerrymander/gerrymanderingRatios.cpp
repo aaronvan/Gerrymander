@@ -28,11 +28,11 @@ void printMap(map<string, double> in) {
 
 map<string, double> gerrymanderingRatios(const string &file) {
     map<string, int> countMap;   
+	map<string, vector<string>> districtVotes;
 	map<string, string> districtWinner; 
-	vector<string> districtVotes;		// temp storage for each district's votes
 	map<string, double> gerryMap;		// party : ratio (returned)
     
-	ifstream file_in(file, ios::in);
+	ifstream file_in(file);
 	double totalVotes = 0.0;
 	double districtCounter = 0.0;
 	double ratio = 0.0;
@@ -43,26 +43,28 @@ map<string, double> gerrymanderingRatios(const string &file) {
         while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
             while (ss >> partyVote) {
-                try {
+				try {
 					++countMap[partyVote];
-                } catch (const out_of_range& oor) {		
-                   countMap[partyVote] = 1;            
-                }
-				districtVotes.push_back(partyVote);
+				}
+				catch (out_of_range) {
+					countMap[partyVote] = 1;
+				}
+				districtVotes[districtName].push_back(partyVote);
                 ++totalVotes;
             }
-			sort(districtVotes.begin(), districtVotes.end());
-			int max = 0;
-			string winner = districtVotes[max];
-			for (size_t i = 0; i < districtVotes.size(); ++i) {
-				int counter = count(districtVotes.begin(), districtVotes.end(), districtVotes[i]);
-				if (counter > max) {
-					max = counter;
-					winner = districtVotes[i];
+			string winner;
+			for (auto looker : districtVotes) {
+				sort(districtVotes[districtName].begin(), districtVotes[districtName].end());
+				int max = 0;
+				for (size_t i = 0; i < districtVotes[districtName].size(); ++i)	{
+					int counter = count(districtVotes[districtName].begin(), districtVotes[districtName].end(), districtVotes[districtName][i]);
+					if (counter > max) {
+						max = counter;
+						winner = districtVotes[districtName][i];
+					}
 				}
 			}
 			districtWinner[districtName] = winner;
-			districtVotes.clear();
 			++districtCounter;
 		}
 	}
