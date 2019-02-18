@@ -28,11 +28,12 @@ void printMap(map<string, double> in) {
 
 map<string, double> gerrymanderingRatios(const string &file) {
     map<string, int> countMap;   
+	
+	map<string, vector<string>> districtVotes;
 	map<string, string> districtWinner; 
-	vector<string> districtVotes;		// temp storage for each district's votes
 	map<string, double> gerryMap;		// party : ratio (returned)
     
-	ifstream file_in(file, ios::in);
+	ifstream file_in(file);
 	double totalVotes = 0.0;
 	double districtCounter = 0.0;
 	double ratio = 0.0;
@@ -43,43 +44,44 @@ map<string, double> gerrymanderingRatios(const string &file) {
         while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
             while (ss >> partyVote) {
-                try {
-					++countMap[partyVote];
-                } catch (const out_of_range& oor) {		
-                   countMap[partyVote] = 1;            
-                }
-				districtVotes.push_back(partyVote);
+				districtVotes[districtName].push_back(partyVote);
                 ++totalVotes;
             }
-			sort(districtVotes.begin(), districtVotes.end());
-			int max = 0;
-			string winner = districtVotes[max];
-			for (size_t i = 0; i < districtVotes.size(); ++i) {
-				int counter = count(districtVotes.begin(), districtVotes.end(), districtVotes[i]);
-				if (counter > max) {
-					max = counter;
-					winner = districtVotes[i];
+			/*
+			districtVotes = { {District1:BABBACBBAA}, {District_2:ACAAACCA}, {dist3:BCABACA}, {Distr__4:CCC},
+			{district5:B, {district6:CBACCA}, {distric7:BBBCC}, {district8:CCCCA} }
+			*/
+			string winner;
+			for (auto looker : districtVotes) {
+				sort(districtVotes[districtName].begin(), districtVotes[districtName].end());
+				int max = 0;
+				for (size_t i = 0; i < districtVotes[districtName].size(); ++i)	{
+					int counter = count(districtVotes[districtName].begin(), districtVotes[districtName].end(), districtVotes[districtName][i]);
+					if (counter > max) {
+						max = counter;
+						winner = districtVotes[districtName][i];
+					}
 				}
 			}
-			districtWinner[districtName] = winner;
-			districtVotes.clear();
+			winner = districtWinner[districtName];
 			++districtCounter;
 		}
 	}
 	file_in.close();
 	
-	map<string, int>::iterator voteCounter = countMap.begin(); // countMap
-    for (; voteCounter != countMap.end(); ++voteCounter) {
-		map<string, string>::iterator partyCounter = districtWinner.begin(); // districtWinner
-		int districtsWon = 0;
-		for (; partyCounter != districtWinner.end(); ++partyCounter) {
-			if ((*voteCounter).first == (*partyCounter).second)
-				++districtsWon;
-		}
-		double percentOfVotes = (*voteCounter).second / totalVotes; // total votes / # of party votes
-		double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
-		ratio = percentDistrictsWon / percentOfVotes;
-		gerryMap[(*voteCounter).first] = ratio;
-    }
+	
+	//map<string, int>::iterator voteCounter = countMap.begin(); // countMap
+ //   for (; voteCounter != countMap.end(); ++voteCounter) {
+	//	map<string, string>::iterator partyCounter = districtWinner.begin(); // districtWinner
+	//	int districtsWon = 0;
+	//	for (; partyCounter != districtWinner.end(); ++partyCounter) {
+	//		if ((*voteCounter).first == (*partyCounter).second)
+	//			++districtsWon;
+	//	}
+	//	double percentOfVotes = (*voteCounter).second / totalVotes; // total votes / # of party votes
+	//	double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
+	//	ratio = percentDistrictsWon / percentOfVotes;
+	//	gerryMap[(*voteCounter).first] = ratio;
+ //   }
     return gerryMap;
 }
