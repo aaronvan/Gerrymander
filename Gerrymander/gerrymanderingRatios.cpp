@@ -52,10 +52,6 @@ map<string, double> gerrymanderingRatios(const string &file) {
 				districtVotes[districtName].push_back(partyVote);
                 ++totalVotes;
             }
-			/*
-			districtVotes = { {District1:BABBACBBAA}, {District_2:ACAAACCA}, {dist3:BCABACA}, {Distr__4:CCC},
-			{district5:B, {district6:CBACCA}, {distric7:BBBCC}, {district8:CCCCA} }
-			*/
 			string winner;
 			for (auto looker : districtVotes) {
 				sort(districtVotes[districtName].begin(), districtVotes[districtName].end());
@@ -68,25 +64,24 @@ map<string, double> gerrymanderingRatios(const string &file) {
 					}
 				}
 			}
-			winner = districtWinner[districtName];
+			districtWinner[districtName] = winner;
 			++districtCounter;
 		}
 	}
 	file_in.close();
 	
-	
-	//map<string, int>::iterator voteCounter = countMap.begin(); // countMap
- //   for (; voteCounter != countMap.end(); ++voteCounter) {
-	//	map<string, string>::iterator partyCounter = districtWinner.begin(); // districtWinner
-	//	int districtsWon = 0;
-	//	for (; partyCounter != districtWinner.end(); ++partyCounter) {
-	//		if ((*voteCounter).first == (*partyCounter).second)
-	//			++districtsWon;
-	//	}
-	//	double percentOfVotes = (*voteCounter).second / totalVotes; // total votes / # of party votes
-	//	double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
-	//	ratio = percentDistrictsWon / percentOfVotes;
-	//	gerryMap[(*voteCounter).first] = ratio;
- //   }
+	map<string, int>::iterator voteCounter = countMap.begin(); // countMap
+    for (; voteCounter != countMap.end(); ++voteCounter) {
+		map<string, string>::iterator partyCounter = districtWinner.begin(); // districtWinner
+		int districtsWon = 0;
+		for (; partyCounter != districtWinner.end(); ++partyCounter) {
+			if ((*voteCounter).first == (*partyCounter).second)
+				++districtsWon;
+		}
+		double percentOfVotes = (*voteCounter).second / totalVotes; // total votes / # of party votes
+		double percentDistrictsWon = districtsWon / districtCounter; // districts won by party / # of districts
+		ratio = percentDistrictsWon / percentOfVotes;
+		gerryMap[(*voteCounter).first] = ratio;
+    }
     return gerryMap;
 }
