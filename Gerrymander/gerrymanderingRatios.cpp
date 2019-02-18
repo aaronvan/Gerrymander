@@ -28,7 +28,7 @@ void printMap(map<string, double> in) {
 
 map<string, double> gerrymanderingRatios(const string &file) {
     map<string, int> countMap;   
-	map<string, vector<string>> districtVotes;
+	map<string, vector<string>> districtVotes; // district : votes
 	map<string, string> districtWinner; 
 	map<string, double> gerryMap;		// party : ratio (returned)
     
