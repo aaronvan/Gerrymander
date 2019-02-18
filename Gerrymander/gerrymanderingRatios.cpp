@@ -53,7 +53,6 @@ map<string, double> gerrymanderingRatios(const string &file) {
                 ++totalVotes;
             }
 			string winner;
-			for (auto looker : districtVotes) {
 				sort(districtVotes[districtName].begin(), districtVotes[districtName].end());
 				int max = 0;
 				for (size_t i = 0; i < districtVotes[districtName].size(); ++i)	{
@@ -63,7 +62,6 @@ map<string, double> gerrymanderingRatios(const string &file) {
 						winner = districtVotes[districtName][i];
 					}
 				}
-			}
 			districtWinner[districtName] = winner;
 			++districtCounter;
 		}
