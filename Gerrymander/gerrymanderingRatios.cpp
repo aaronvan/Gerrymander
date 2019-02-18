@@ -28,7 +28,6 @@ void printMap(map<string, double> in) {
 
 map<string, double> gerrymanderingRatios(const string &file) {
     map<string, int> countMap;   
-	
 	map<string, vector<string>> districtVotes;
 	map<string, string> districtWinner; 
 	map<string, double> gerryMap;		// party : ratio (returned)
@@ -44,6 +43,12 @@ map<string, double> gerrymanderingRatios(const string &file) {
         while (file_in >> districtName, getline(file_in, line)) {
             stringstream ss(line);
             while (ss >> partyVote) {
+				try {
+					++countMap[partyVote];
+				}
+				catch (out_of_range) {
+					countMap[partyVote] = 1;
+				}
 				districtVotes[districtName].push_back(partyVote);
                 ++totalVotes;
             }
