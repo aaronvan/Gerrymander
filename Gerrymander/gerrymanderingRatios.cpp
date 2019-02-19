@@ -52,15 +52,15 @@ map<string, double> gerrymanderingRatios(const string &file) {
                 ++totalVotes;
             }
 			string winner;
-				sort(districtVotes[districtName].begin(), districtVotes[districtName].end());
-				int max = 0;
-				for (size_t i = 0; i < districtVotes[districtName].size(); ++i)	{
-					int counter = count(districtVotes[districtName].begin(), districtVotes[districtName].end(), districtVotes[districtName][i]);
-					if (counter > max) {
-						max = counter;
-						winner = districtVotes[districtName][i];
-					}
+			sort(districtVotes[districtName].begin(), districtVotes[districtName].end());
+			int max = 0;
+			for (size_t i = 0; i < districtVotes[districtName].size(); ++i)	{
+				int counter = count(districtVotes[districtName].begin(), districtVotes[districtName].end(), districtVotes[districtName][i]);
+				if (counter > max) {
+					max = counter;
+					winner = districtVotes[districtName][i];
 				}
+			}
 			districtWinner[districtName] = winner;
 			++districtCounter;
 		}
