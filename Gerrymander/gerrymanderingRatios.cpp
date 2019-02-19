@@ -20,7 +20,6 @@ int main() {
 }
 
 void printMap(map<string, double> in) {
-    map<string, double>::iterator dit;
     for (pair<string, double> p : in) {
       cout << '{' << p.first << ":" << p.second << "} ";
     }
